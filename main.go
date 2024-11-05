@@ -1,9 +1,8 @@
 package main
 
 import (
-	"github.com/HersheyPlus/go-auth/config"
 	"log"
-
+	"github.com/HersheyPlus/go-auth/config"
 )
 
 func main() {
@@ -11,5 +10,5 @@ func main() {
 	if err != nil {
         log.Fatal("Cannot load config:", err)
     }
-
+	log.Println("Config loaded successfully", config)
 }
