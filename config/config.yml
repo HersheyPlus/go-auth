@@ -1,0 +1,139 @@
+# Server Configuration
+server:
+  port: 8080
+  host: "0.0.0.0"
+  timeout:
+    read: 15s
+    write: 15s
+    idle: 60s
+  shutdown_timeout: 30s
+
+# Database Configuration
+database:
+  host: localhost
+  port: 5432
+  user: postgres
+  password: postgres
+  name: user_db
+  max_open_conns: 100
+  max_idle_conns: 10
+  conn_max_lifetime: 1h
+  ssl_mode: disable
+
+# JWT Configuration
+jwt:
+  secret: "141b478f191d0854e73bb3993c27d4a311e476e0d4bfc4dced76f6e8d78762a079877f83e61739d2b4b714c5845d839c85f6fb92a7ef3d5b1030cdd01a381c52"
+  access_token_expiry: 15m
+  refresh_token_expiry: 168h  # 7 days
+  issuer: "go-auth-service"
+  audience: "users"
+
+# CORS Configuration
+cors:
+  allowed_origins:
+    - "http://localhost:3000"
+    - "https://frontend-domain.com"
+  allowed_methods:
+    - "GET"
+    - "POST"
+    - "PUT"
+    - "PATCH"
+    - "DELETE"
+    - "OPTIONS"
+  allowed_headers:
+    - "Authorization"
+    - "Content-Type"
+    - "X-Request-ID"
+  exposed_headers:
+    - "X-Request-ID"
+  allow_credentials: true
+  max_age: 300 # 5 minutes
+
+# Rate Limiting
+rate_limit:
+  enabled: true
+  requests: 100
+  duration: 1m
+  type: "ip" # Options: ip, user, mixed
+
+# Security
+security:
+  bcrypt_cost: 12
+  min_password_length: 8
+  max_password_length: 72
+  allowed_special_chars: "!@#$%^&*()_+-=[]{}|;:,.<>?"
+  password_requirements:
+    min_uppercase: 1
+    min_lowercase: 1
+    min_numbers: 1
+    min_special: 1
+
+# Application
+app:
+  name: "Go Authetication Service"
+  environment: "development" # Options: development, staging, production
+  debug: true
+  api:
+    version: "v1"
+    prefix: "/api"
+  timezone: "UTC"
+
+# Logging
+logging:
+  level: "info"  # Options: debug, info, warn, error
+  format: "json" # Options: json, text
+  output: "stdout" # Options: stdout, file
+  file_path: "logs/app.log"
+  include:
+    timestamp: true
+    level: true
+    caller: true
+    request_id: true
+
+# Cache
+cache:
+  enabled: true
+  type: "memory" # Options: memory, redis
+  ttl: 1h
+  cleanup_interval: 2h
+
+# Monitoring
+monitoring:
+  enabled: true
+  metrics_path: "/metrics"
+  health_check_path: "/health"
+
+# Email (for future use)
+email:
+  enabled: false
+  smtp:
+    host: "smtp.example.com"
+    port: 587
+    username: "your-email@example.com"
+    password: "your-smtp-password"
+    encryption: "tls" # Options: tls, ssl, none
+  from:
+    name: "Go Authetication Service"
+    email: "noreply@yourapp.com"
+  templates_dir: "templates/email"
+
+# File Storage (for future use)
+storage:
+  type: "local" # Options: local, s3
+  local:
+    path: "uploads/"
+    max_size: 10MB
+  s3:
+    region: "us-west-2"
+    bucket: "your-bucket-name"
+    access_key: ""
+    secret_key: ""
+
+# Feature Flags
+features:
+  enable_refresh_tokens: true
+  enable_social_login: false
+  enable_mfa: false
+  enable_password_reset: true
+  enable_email_verification: true
+  enable_user_deletion: false
