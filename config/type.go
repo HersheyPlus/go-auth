@@ -43,6 +43,7 @@ type DatabaseConfig struct {
     MaxIdleConns    int          `mapstructure:"max_idle_conns"`
     ConnMaxLifetime time.Duration `mapstructure:"conn_max_lifetime"`
     SSLMode         string        `mapstructure:"ssl_mode"`
+    MaxRetries      int          `mapstructure:"max_retries"`
 }
 
 type JWTConfig struct {

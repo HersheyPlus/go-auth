@@ -17,6 +17,7 @@ database:
   name: user_db
   max_open_conns: 100
   max_idle_conns: 10
+  max_retries: 5
   conn_max_lifetime: 1h
   ssl_mode: disable
 
