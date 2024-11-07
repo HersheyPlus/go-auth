@@ -47,7 +47,8 @@ type DatabaseConfig struct {
 }
 
 type JWTConfig struct {
-    Secret             string        `mapstructure:"secret"`
+    SecretKey             string        `mapstructure:"secret_key"`
+    RefreshKey             string        `mapstructure:"refresh_key"`
     AccessTokenExpiry  time.Duration `mapstructure:"access_token_expiry"`
     RefreshTokenExpiry time.Duration `mapstructure:"refresh_token_expiry"`
     Issuer            string        `mapstructure:"issuer"`

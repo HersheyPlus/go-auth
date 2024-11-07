@@ -8,6 +8,7 @@ import (
 	"gorm.io/gorm"
 	"gorm.io/driver/postgres"
 	"github.com/HersheyPlus/go-auth/config"
+	"github.com/HersheyPlus/go-auth/models"
 )
 
 // instance
@@ -27,6 +28,7 @@ func ConnectDatabase(cfg *config.Config) error {
 		return fmt.Errorf("failed to configure connection pool: %w", err)
 	}
 
+	db.AutoMigrate(&models.User{})
 	return nil
 }
 

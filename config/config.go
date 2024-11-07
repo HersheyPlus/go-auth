@@ -81,7 +81,7 @@ func setDefaults(v *viper.Viper) {
 }
 
 func validateConfig(cfg *Config) error {
-	if cfg.JWT.Secret == "" {
+	if cfg.JWT.SecretKey == "" {
 		return fmt.Errorf("jwt secret is required")
 	}
 
