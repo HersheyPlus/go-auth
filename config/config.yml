@@ -17,12 +17,14 @@ database:
   name: user_db
   max_open_conns: 100
   max_idle_conns: 10
+  max_retries: 5
   conn_max_lifetime: 1h
   ssl_mode: disable
 
 # JWT Configuration
 jwt:
-  secret: "141b478f191d0854e73bb3993c27d4a311e476e0d4bfc4dced76f6e8d78762a079877f83e61739d2b4b714c5845d839c85f6fb92a7ef3d5b1030cdd01a381c52"
+  secret_key: "141b478f191d0854e73bb3993c27d4a311e476e0d4bfc4dced76f6e8d78762a079877f83e61739d2b4b714c5845d839c85f6fb92a7ef3d5b1030cdd01a381c52"
+  refresh_key: "24254ccf493d1bb6f77b89591647d21f429138d96971b3adb82179daee89746e0d203e2cbfc92f2d6b8cd2d471b4b069bfbfd13b6bc5b9d8415c54771aa4dbc4"
   access_token_expiry: 15m
   refresh_token_expiry: 168h  # 7 days
   issuer: "go-auth-service"
@@ -61,12 +63,13 @@ security:
   bcrypt_cost: 12
   min_password_length: 8
   max_password_length: 72
+  track_refresh_tokens: true
   allowed_special_chars: "!@#$%^&*()_+-=[]{}|;:,.<>?"
   password_requirements:
-    min_uppercase: 1
-    min_lowercase: 1
-    min_numbers: 1
-    min_special: 1
+    require_uppercase: true
+    require_lowercase: true
+    require_numbers: true
+    require_special: true
 
 # Application
 app:
