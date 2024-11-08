@@ -13,8 +13,6 @@ func PublicRoutes(default_route *gin.RouterGroup, db *gorm.DB, cfg *config.Confi
 	public := default_route.Group("/public")
 	{
 		public.POST("/register", authHandler.Register)
-		public.GET("/login", func(c *gin.Context) {
-			c.JSON(200, gin.H{"message": "login"})
-		})
+		public.POST("/login", authHandler.Login)
 	}
 }

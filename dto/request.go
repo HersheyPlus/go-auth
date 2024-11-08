@@ -10,7 +10,7 @@ type UserRegisterRequest struct {
     LastName  *string `json:"last_name,omitempty" binding:"omitempty,min=2,max=100"`
     Phone     string  `json:"phone" binding:"required,min=10,max=20"`
     Email     string  `json:"email" binding:"required,email,max=100"`
-    Password  string  `json:"password" binding:"required,min=8,max=72"`
+    Password  string  `json:"password" binding:"required"`
 }
 
 type UserLoginRequest struct {

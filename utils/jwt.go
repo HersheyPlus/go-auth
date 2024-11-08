@@ -10,7 +10,7 @@ import (
 
 // Custom claims structure
 type Claims struct {
-    UserID    uint   `json:"user_id"`
+    UserID    string   `json:"user_id"`
     Username  string `json:"username"`
     TokenType string `json:"token_type"` // "access" or "refresh"
     jwt.RegisteredClaims
@@ -26,7 +26,7 @@ type TokenDetails struct {
 }
 
 // GenerateTokenPair generates both access and refresh tokens
-func GenerateTokenPair(userID uint, username string, cfg *config.JWTConfig) (*TokenDetails, error) {
+func GenerateTokenPair(userID string, username string, cfg *config.JWTConfig) (*TokenDetails, error) {
     td := &TokenDetails{
         AccessUuid:  GenerateUUID(),
         RefreshUuid: GenerateUUID(),
@@ -67,7 +67,7 @@ func GenerateTokenPair(userID uint, username string, cfg *config.JWTConfig) (*To
 
 // generateToken creates a new token depending on token type
 func generateToken(
-    userID uint,
+    userID string,
     username string,
     uuid string,
     tokenType string,
@@ -82,7 +82,7 @@ func generateToken(
             ExpiresAt: jwt.NewNumericDate(expiry),
             IssuedAt:  jwt.NewNumericDate(time.Now()),
             NotBefore: jwt.NewNumericDate(time.Now()),
-            Subject:   fmt.Sprintf("%d", userID),
+            Subject:   userID,
             ID:        uuid,
             Issuer:    "your-app-name",
         },

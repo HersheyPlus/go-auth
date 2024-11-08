@@ -11,6 +11,7 @@ type UserRegisterResponse struct {
     LastName  *string   `json:"last_name,omitempty"`
     Phone     string    `json:"phone"`
     Email    string    `json:"email"`
+    LastLogin time.Time `json:"last_login,omitempty"`
 }
 
 type UserLoginResponse struct {
@@ -20,7 +21,9 @@ type UserLoginResponse struct {
     AccessToken  string    `json:"access_token"`
     RefreshToken string    `json:"refresh_token,omitempty"`
     ExpiresIn    int64     `json:"expires_in"`
+    LastLogin time.Time `json:"last_login,omitempty"`
 }
+
 
 
 type UserProfileResponse struct {

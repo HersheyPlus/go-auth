@@ -14,7 +14,6 @@ import (
 // instance
 var db *gorm.DB
 
-
 func GetDB() *gorm.DB {
 	return db
 }
@@ -28,7 +27,29 @@ func ConnectDatabase(cfg *config.Config) error {
 		return fmt.Errorf("failed to configure connection pool: %w", err)
 	}
 
-	db.AutoMigrate(&models.User{})
+	// Run migrations
+	if err := runMigrations(); err != nil {
+		return fmt.Errorf("failed to run migrations: %w", err)
+	}
+
+	return nil
+}
+
+func runMigrations() error {
+	// Enable UUID extension for PostgreSQL
+	if err := db.Exec(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`).Error; err != nil {
+		return fmt.Errorf("failed to create uuid extension: %w", err)
+	}
+
+	// Run migrations in specific order
+	if err := db.AutoMigrate(
+		&models.User{},
+		&models.RefreshToken{}, // Move RefreshToken to models package
+	); err != nil {
+		return fmt.Errorf("failed to run migrations: %w", err)
+	}
+
+	log.Println("Database migrations completed successfully")
 	return nil
 }
 
@@ -40,6 +61,7 @@ func connectWithRetries(cfg *config.Config) error {
 		dsn := cfg.GetDBConnString()
 		db, err = gorm.Open(postgres.Open(dsn), cfg.GormConfig())
 		if err == nil {
+			log.Println("Successfully connected to database")
 			break
 		}
 
@@ -75,6 +97,7 @@ func configureConnectionPool(cfg *config.Config) error {
 		return fmt.Errorf("connection verification failed: %w", err)
 	}
 
+	log.Println("Database connection pool configured successfully")
 	return nil
 }
 
@@ -92,5 +115,6 @@ func CloseDB() error {
 		return fmt.Errorf("error closing database connection: %w", err)
 	}
 
+	log.Println("Database connection closed successfully")
 	return nil
 }

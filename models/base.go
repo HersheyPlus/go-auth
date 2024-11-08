@@ -11,6 +11,7 @@ type Base struct {
 	CreatedAt time.Time      `json:"created_at"`
 	UpdatedAt time.Time      `json:"updated_at"`
 	DeletedAt gorm.DeletedAt `gorm:"index" json:"-"`
+	LastLogin time.Time `gorm:"not null;default:current_timestamp"`
 }
 
 // Set UUID

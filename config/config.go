@@ -138,5 +138,6 @@ func (cfg *Config) GormConfig() *gorm.Config {
 		PrepareStmt:            true, // Enable prepared statement cache
 		SkipDefaultTransaction: true, // Skip default transaction for better performance
 		QueryFields:            true, // Select specific fields instead of using SELECT *
+		DisableForeignKeyConstraintWhenMigrating: true,
 	}
 }

@@ -1,39 +1,31 @@
 package validators
 
 import (
+	"fmt"
+	"github.com/HersheyPlus/go-auth/config"
 	"github.com/HersheyPlus/go-auth/dto"
-	"strings"
+	"github.com/HersheyPlus/go-auth/utils"
 )
 
-func ValidateRegisterFields(req *dto.UserRegisterRequest) string {
-	var missingFields []string
-
-	if isEmptyField(req.Username) {
-		missingFields = append(missingFields, "username")
+func ValidateRegisterFields(req *dto.UserRegisterRequest, cfg *config.SecurityConfig) error {
+	// Validate basic required fields
+	if req.Username == "" {
+		return fmt.Errorf("username is required")
 	}
-	if isEmptyField(req.Phone) {
-		missingFields = append(missingFields, "phone")
+	if req.Email == "" {
+		return fmt.Errorf("email is required")
 	}
-	if isEmptyField(req.Email) {
-		missingFields = append(missingFields, "email")
+	if req.Phone == "" {
+		return fmt.Errorf("phone is required")
 	}
-	if isEmptyField(req.Password) {
-		missingFields = append(missingFields, "password")
-	}
-
-	if len(req.Password) < 8 {
-		missingFields = append(missingFields, "password must be at least 8 characters")
-	}
-	
-
-	if len(missingFields) > 0 {
-		return "Missing required fields: " + strings.Join(missingFields, ", ")
+	if req.Password == "" {
+		return fmt.Errorf("password is required")
 	}
 
-	return ""
-}
+	// Validate password requirements
+	if err := utils.ValidatePassword(req.Password, cfg); err != nil {
+		return fmt.Errorf("invalid password: %w", err)
+	}
 
-
-func isEmptyField(field string) bool {
-	return field == ""
+	return nil
 }
